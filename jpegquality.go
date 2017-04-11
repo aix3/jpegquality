@@ -49,6 +49,7 @@ func New(rs io.ReadSeeker) (jr *jpegReader, err error) {
 }
 
 func (this *jpegReader) readQuality() (q int, err error) {
+	qualityAvg := make([]float64, 3)
 	for {
 		mark := this.readMarker()
 		if mark == 0 {
@@ -58,7 +59,6 @@ func (this *jpegReader) readQuality() (q int, err error) {
 		var (
 			length, index int
 			sign          = make([]byte, 2)
-			qualityAvg    = make([]float64, 3)
 		)
 		_, err = this.rs.Read(sign)
 		if err != nil {
